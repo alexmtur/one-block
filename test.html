@@ -1,0 +1,37 @@
+<!-- Execute polymer serve on the file's folder and open http://localhost:8080/components/one-block/test.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<script src="bower_components/webcomponentsjs/webcomponents-loader.js"></script>
+<link rel="import"  href="one-block.html">
+</head>
+
+<body>  
+  <dom-bind>
+    <template>
+      <div>
+        Block 1
+        <input type="checkbox" checked="{{block1::change}}">
+      </div>
+
+      <div>
+        Block 2
+        <input type="checkbox" checked="{{block2::change}}">
+      </div>
+
+      <one-block  align="center-space" width="90vw" height="50vh" style="background: grey;" type="row">
+        <one-block visible="{{block1}}" align="center-center" width="30vw" height="40vh" style="background: red;" entry-animation="fade-in-right" exit-animation="shrink">
+          Block 1
+        </one-block> 
+        <one-block visible="{{block2}}" align="center-center" width="30vw" height="30vh" style="background: blue;" entry-animation="vertical-expand" exit-animation="slide-out-up" overlap-animation>
+          Block 2
+        </one-block> 
+      </one-block> 
+
+    </template>
+  </dom-bind>
+</body>
+</html>

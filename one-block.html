@@ -1,0 +1,138 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../one-class/one-class.html">
+
+<dom-module id="one-block">
+    <template>
+        <style>
+            :host {
+                display: flex;
+                justify-content: var(--one-horizontal-alignment, 'flex-start');
+                align-items: var(--one-vertical-alignment, 'flex-start');
+                flex-direction: var(--one-block-type, 'row');
+                flex: var(--one-weight, '0');
+                width: var(--one-width, 'auto');
+                min-width: var(--one-width, 'auto');
+                max-width: var(--one-width, 'auto');
+                height: var(--one-height, 'auto');
+                min-height: var(--one-height, 'auto');
+                max-height: var(--one-height, 'auto');
+            }
+        </style>
+        <slot></slot>
+    </template>
+
+    <script>
+        class OneBlock extends OneClass {
+            static get is() { return "one-block"; }
+            static get properties() {
+                return {
+                    //Layout Properties
+                    align: {
+                        type: String,
+                        value: 'top-left'
+                    },
+                    type: {
+                        type: String,
+                        value: 'row'
+                    },
+                    weight: {
+                        type: Number,
+                        value: 0
+                    },
+                    width: {
+                        type: String,
+                        value: 'auto'
+                    },
+                    height: {
+                        type: String,
+                        value: 'auto'
+                    },
+                }
+            }
+            setLayout() {
+                //Alignment:
+                let index = this.align.indexOf('-');
+                let vAlign = this.align.slice(0, index);
+                let hAlign = this.align.slice(index + 1, this.align.length);
+                let isRow = true;
+
+                if(this.type === 'column' || this.type === 'column-reverse') {
+                    let aux = vAlign;
+                    vAlign = hAlign;
+                    hAlign = aux;
+                    isRow = false;
+                }
+
+                if(vAlign === 'center') {
+                    this.updateStyles({'--one-vertical-alignment': vAlign});
+                }
+                else if(vAlign === 'bottom') {
+                    this.updateStyles({'--one-vertical-alignment': 'flex-end'});
+                }
+                else if(vAlign === 'space') {
+                    if(!isRow) {
+                        this.updateStyles({'--one-vertical-alignment': 'space-around'});
+                    }
+                }
+                else if(vAlign === 'stretch') {
+                    if(isRow) {
+                        this.updateStyles({'--one-vertical-alignment': 'stretch'});
+                    }
+                    else {
+                        this.updateStyles({'--one-vertical-alignment': 'space-between'});
+                    }
+
+                }
+                else {
+                    this.updateStyles({'--one-vertical-alignment': 'flex-start'});
+                }
+
+                if(hAlign === 'center') {
+                    this.updateStyles({'--one-horizontal-alignment': 'center'});
+                }
+                else if(hAlign === 'right') {
+                    this.updateStyles({'--one-horizontal-alignment': 'flex-end'});
+                }
+                else if(hAlign === 'space') {
+                    if(isRow) {
+                        this.updateStyles({'--one-horizontal-alignment': 'space-around'});
+                    }
+                }
+                else if(hAlign === 'stretch') {
+                    if(isRow) {
+                        this.updateStyles({'--one-horizontal-alignment': 'space-between'});
+                    }
+                    else {
+                        this.updateStyles({'--one-horizontal-alignment': 'stretch'});
+                    }
+                }
+                else {
+                    this.updateStyles({'--one-horizontal-alignment': 'flex-start'});
+                }
+
+                //Type:
+                if(this.type === 'row-reverse') {
+                    this.updateStyles({'--one-block-type': 'row-reverse'});
+                }
+                else if(this.type === 'column') {
+                    this.updateStyles({'--one-block-type': 'column'});
+                }
+                else if(this.type === 'column-reverse') {
+                    this.updateStyles({'--one-block-type': 'column-reverse'});
+                } else {
+                    this.updateStyles({'--one-block-type': 'row'});
+                }
+
+                //Weight, width and height:
+                this.updateStyles({'--one-weight': this.weight + ''});
+                this.updateStyles({'--one-width': this.width});
+                this.updateStyles({'--one-height': this.height});
+            }
+            ready() {
+                super.ready();
+                this.setLayout();
+            }
+        }
+        customElements.define(OneBlock.is, OneBlock);
+    </script>
+</dom-module>

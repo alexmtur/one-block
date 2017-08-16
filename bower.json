@@ -1,0 +1,22 @@
+{
+  "name": "one-block",
+  "homepage": "https://github.com/alexmtur/one-block",
+  "authors": [
+    "Alex Martin <alexmartinturrillas@gmail.com>"
+  ],
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#latest",
+    "one-class": "latest"
+  },
+  "devDependencies": {}
+}
